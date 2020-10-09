@@ -1,0 +1,31 @@
+.search-bar{
+    height: 50px;
+    font-size: 1.6rem;
+    padding-left: 10px;
+    width: 600px;
+}
+
+.search-button{
+    width: 100px;
+    height: 40px;
+    margin-top: 5px;
+    margin-left: -105px;
+    font-size: 1.6rem;
+    border-radius: 5px;
+    border: none;
+    background: #3582ea;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-button:hover{
+    background: #2A68BB;
+}
+
+
+
+.search-container{
+    
+   margin: auto;
+    
+}

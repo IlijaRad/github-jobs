@@ -1,29 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import logo from './images/office.jpg'
+import SearchBar from './components/SearchBar/SearchBar.js'
 
 class App extends React.Component{
     state = {
         jobs: []
     }
-    searchAPI = async () => {
+    searchAPI = async (description="") => {
         const request = await fetch('https://morning-refuge-16267.herokuapp.com/https://jobs.github.com/positions.json?' + new URLSearchParams({
             title: "",
-            location: "US",
+            location: "",
             type: "",
             company: "",
+            description,
         }))
         const json = await request.json();
+        console.log(json)
         this.setState({jobs: json})
     }
     componentDidMount(){
         this.searchAPI();
     }
 
+    onSearchSubmit = (term) =>{
+        this.searchAPI(term);
+    }
+
     render(){
         return (
             <div className="container">
-                <h1 className="main-title">Github Jobs</h1>
+                <header>
+                    <h1 className="main-title">Github Jobs</h1>
+                    <SearchBar onSubmit={this.onSearchSubmit}/>
+                </header>
+                    
+                
+                
                 <JobList jobs={this.state.jobs}/>
             </div>
         )
@@ -35,15 +49,12 @@ const Job = (props) => {
     let posted = new Date(props.time);
     let today = new Date();
     let dateDiff = Math.floor((Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) - Date.UTC(posted.getFullYear(), posted.getMonth(), posted.getDate()) ) /(1000 * 60 * 60 * 24));
-    let postedComponent;
-    if (dateDiff === 0) {
-        postedComponent = <div className="time">Posted today</div>
-    } else if (dateDiff === 1) {
-        postedComponent = <div className="time">Posted yesterday</div>
-    } else {
-        postedComponent = <div className="time">Posted {dateDiff} days ago</div>
-    }
-    let imgSrc = props.company_logo ? props.company_logo : 'office.jpg';
+    let postedString;
+    if (dateDiff === 0) postedString = 'Posted today';
+    else if (dateDiff === 1) postedString = 'Posted yesterday';
+    else postedString = `Posted ${dateDiff} days ago`;
+    
+    let imgSrc = props.company_logo ? props.company_logo : logo;
   
     
     return (
@@ -65,7 +76,7 @@ const Job = (props) => {
                     </div>
                     <div className="column center">
                         <i className="las la-calendar"></i>
-                        {postedComponent}
+                        <div className="time">{postedString}</div>
                     </div>
                     
                                   
