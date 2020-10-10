@@ -2,11 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import logo from './images/office.jpg'
-import SearchBar from './components/SearchBar/SearchBar.js'
+import SearchBar from './components/SearchBar/SearchBar'
+import Pagination from './components/Pagination/Pagination'
 
 class App extends React.Component{
     state = {
-        jobs: []
+        jobs: [],
+        currentPage: 1,
+        postsPerPage: 10
     }
     searchAPI = async (description="") => {
         const request = await fetch('https://morning-refuge-16267.herokuapp.com/https://jobs.github.com/positions.json?' + new URLSearchParams({
@@ -17,28 +20,32 @@ class App extends React.Component{
             description,
         }))
         const json = await request.json();
-        console.log(json)
         this.setState({jobs: json})
     }
+ 
     componentDidMount(){
         this.searchAPI();
     }
 
-    onSearchSubmit = (term) =>{
+    
+    onSearchSubmit =  (term) =>{
+        this.setState({currentPage: 1})
         this.searchAPI(term);
     }
-
+    
     render(){
+        let indexOfLastPost= this.state.currentPage * this.state.postsPerPage;
+        let indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        let currentPosts = this.state.jobs.slice(indexOfFirstPost, indexOfLastPost);
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
         return (
             <div className="container">
                 <header>
                     <h1 className="main-title">Github Jobs</h1>
                     <SearchBar onSubmit={this.onSearchSubmit}/>
-                </header>
-                    
-                
-                
-                <JobList jobs={this.state.jobs}/>
+                </header>     
+                <JobList jobs={currentPosts}/>
+                <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.state.jobs.length} paginate={paginate} currPage={this.state.currentPage} />
             </div>
         )
     }
@@ -63,7 +70,7 @@ const Job = (props) => {
                 <div className="main-details">
                     <img src={imgSrc} alt="" className="company-logo"/>
                     <div className="column">
-                        <a href="#"><div className="title">{props.title}</div></a>
+                        <a href="#!"><div className="title">{props.title}</div></a>
                         <div className="company-name">{props.company}</div>
                         <div className="type">{props.type}</div>
                     </div>
@@ -78,8 +85,7 @@ const Job = (props) => {
                         <i className="las la-calendar"></i>
                         <div className="time">{postedString}</div>
                     </div>
-                    
-                                  
+                                 
                 </div>          
             </div>
         </div>
@@ -97,9 +103,6 @@ const JobList = (props) => {
     )
 }
 
+const root = document.getElementById("root");
 
-
-
-const rt = document.getElementById("root");
-
-ReactDOM.render(<App />, rt);
+ReactDOM.render(<App />, root);

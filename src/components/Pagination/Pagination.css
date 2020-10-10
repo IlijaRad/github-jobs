@@ -1,0 +1,18 @@
+.page-link{
+    color: #fff;
+    background: #3582ea;
+    border: none;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.page-link:hover{
+    background: #2A68BB; 
+}
+
+.page-link.active{
+    background: #2A68BB;
+}
