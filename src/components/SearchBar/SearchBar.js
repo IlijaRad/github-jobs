@@ -2,6 +2,7 @@ import React from 'react';
 import './SearchBar.css'
 
 class SearchBar extends React.Component {
+    
     state = {
         term: '',
     }
@@ -15,7 +16,7 @@ class SearchBar extends React.Component {
         return (
             <div className="search-container">
                 <form onSubmit={this.onFormSubmit}>
-                    <input type="text" className="search-bar" value={this.state.term} onChange={(e) => this.setState({term: e.target.value})} />
+                    <input type="text" className="search-bar" placeholder={this.props.placeholder} value={this.state.term} onChange={(e) => this.setState({term: e.target.value})} />
                     <input type="submit" className="search-button" value="Search"  />
                 </form>   
             </div>

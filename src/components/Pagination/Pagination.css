@@ -4,9 +4,10 @@
     border: none;
     width: 30px;
     height: 30px;
-    margin-right: 10px;
+    margin-right: 5px;
     border-radius: 3px;
     cursor: pointer;
+
 }
 
 .page-link:hover{
@@ -15,4 +16,8 @@
 
 .page-link.active{
     background: #2A68BB;
+}
+
+.pagination{
+    margin: 0 0 0 62.5%;
 }

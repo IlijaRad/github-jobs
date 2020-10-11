@@ -2,7 +2,7 @@
     height: 50px;
     font-size: 1.6rem;
     padding-left: 10px;
-    width: 600px;
+    width: 100%;
 }
 
 .search-button{
@@ -25,7 +25,7 @@
 
 
 .search-container{
-    
-   margin: auto;
+
+  align-self: center;
     
 }

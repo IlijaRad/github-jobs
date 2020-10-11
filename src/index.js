@@ -4,6 +4,7 @@ import './index.css';
 import logo from './images/office.jpg'
 import SearchBar from './components/SearchBar/SearchBar'
 import Pagination from './components/Pagination/Pagination'
+import Filter from './components/Filter/Filter'
 
 class App extends React.Component{
     state = {
@@ -11,15 +12,17 @@ class App extends React.Component{
         currentPage: 1,
         postsPerPage: 10
     }
-    searchAPI = async (description="") => {
+    searchAPI = async (description="", location="") => {
         const request = await fetch('https://morning-refuge-16267.herokuapp.com/https://jobs.github.com/positions.json?' + new URLSearchParams({
             title: "",
-            location: "",
+            location,
             type: "",
             company: "",
             description,
         }))
         const json = await request.json();
+        console.log(json)
+        
         this.setState({jobs: json})
     }
  
@@ -28,9 +31,14 @@ class App extends React.Component{
     }
 
     
-    onSearchSubmit =  (term) =>{
+    searchByDescription =  (term) =>{
         this.setState({currentPage: 1})
         this.searchAPI(term);
+    }
+
+    searchByLocation =  (term) =>{
+        this.setState({currentPage: 1})
+        this.searchAPI("", term);
     }
     
     render(){
@@ -42,11 +50,16 @@ class App extends React.Component{
             <div className="container">
                 <header>
                     <h1 className="main-title">Github Jobs</h1>
-                    <SearchBar onSubmit={this.onSearchSubmit}/>
-                </header>     
-                <JobList jobs={currentPosts}/>
+                    <SearchBar onSubmit={this.searchByDescription} placeholder="Title, companies, expertise or benefits" />
+                </header>
+                <div className="content">
+                    <Filter onSubmit={this.searchByLocation} placeholder="City, state, zip code or country"/>
+                    <JobList jobs={currentPosts}/>
+                </div>
+                
                 <Pagination postsPerPage={this.state.postsPerPage} totalPosts={this.state.jobs.length} paginate={paginate} currPage={this.state.currentPage} />
             </div>
+                
         )
     }
     
@@ -97,7 +110,7 @@ const JobList = (props) => {
         return <Job key = {item.id} title={item.title} location={item.location} type={item.type} company={item.company} company_logo={item.company_logo} time={item.created_at}/>
     })
     return (
-        <div>
+        <div className="job-list">
             {renderedList}
         </div>
     )
