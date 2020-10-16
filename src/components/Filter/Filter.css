@@ -5,20 +5,26 @@
     margin-right: 20px;
 }
 
+.search-container{
+    position: relative;
+    padding-top: 15px;
+}
+
 .search-location{
     font-size: 1.8rem;
     padding-left: 25px;
+   
 }
 
 .search {
     width: 100%;
-    
 }
 
 
 .search .search-bar{
     height: 35px;
-    margin-top: 20px;
+    margin-top: 5px;
+    margin-bottom: 30px;
 }
 
 .search .search-button{
@@ -41,6 +47,10 @@
 .arr-left{
     font-size: 2.8rem;
     position: absolute;
-    left: 10px;
-    top: 5px;
+    left: -3px;
+    top: 10px;
+}
+
+.search:first-child .checkbox-container{
+    margin-bottom: 10px;
 }

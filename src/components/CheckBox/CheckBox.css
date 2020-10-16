@@ -1,0 +1,52 @@
+.checkbox-container{
+    position:relative;
+    display: flex;
+}
+
+.checkbox-text{
+    position:absolute;
+    top: 3px;
+    left: 30px;
+    font-size: 1.6rem;
+}
+
+.checkbox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    z-index: 1;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkbox-icon{
+    fill:#3582ea;
+    width: 25px;
+    margin-bottom: 6px;
+}
+
+.checkbox-faded{
+    fill: rgba(0, 0, 0, 0.54);
+    width: 25px;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.checkbox:not(:checked) + .checkbox-icon {
+    fill:#3582ea;
+    opacity: 0;
+    
+}
+
+.checkbox:checked ~ .checkbox-faded{
+    opacity: 0;
+}
+
+.label-check{
+    height: 25px;
+    margin-bottom: 10px;
+}
