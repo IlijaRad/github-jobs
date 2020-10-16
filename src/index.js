@@ -16,14 +16,13 @@ class App extends React.Component{
         type: "Full Time"
     }
     searchAPI = async () => {
-        this.setState({currentPage: 1})
         const request = await fetch('https://morning-refuge-16267.herokuapp.com/https://jobs.github.com/positions.json?' + new URLSearchParams({
             location: this.state.location,
             type: "",
             description: this.state.description,
         }))
         const json = await request.json();
-        this.setState({jobs: json})
+        this.setState({jobs: json, currentPage: 1});
     }
  
     componentDidMount(){
@@ -32,6 +31,7 @@ class App extends React.Component{
     shouldComponentUpdate(nextProps, nextState){
         if (this.state.jobs.length !== nextState.jobs.length){   
             return true;
+            
         } else if (this.state.jobs.length === nextState.jobs.length){
             for (let i = 0; i < this.state.jobs.length; i++){
                 if (this.state.jobs[i].id !== nextState.jobs[i].id){
@@ -39,10 +39,13 @@ class App extends React.Component{
                 }
             }
         }
+        if (this.state.currentPage !== nextState.currentPage) {
+            return true;
+        }
         return false;
     }
     searchByDescription = (term) =>{
-        this.setState({description: term}, () => this.searchAPI())
+        this.setState({description: term}, () => this.searchAPI());
     }
 
     searchByLocation =  (term) =>{
@@ -50,7 +53,6 @@ class App extends React.Component{
     }
     
     render(){
-        console.log(this.state.type);
         let indexOfLastPost= this.state.currentPage * this.state.postsPerPage;
         let indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
         let currentPosts = this.state.jobs.slice(indexOfFirstPost, indexOfLastPost);
